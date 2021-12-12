@@ -1,0 +1,74 @@
+<html>
+   <head>
+      <title> Home Page -Bon Appetit_Delicious foregian food recepies consumed by our Indians ! </title>
+    </head> 
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+     <style>
+body
+{
+     background-image: url('blog.jpeg');  
+     background-size: cover;
+     background-position: center;
+     box-sizind: border-box;
+     font-family: sans-serif;     
+}	
+ul
+{   float: right;
+    display: inline-block;
+    padding:5;
+    list-style-type:none;
+}
+ul li
+{
+float:left;
+margin-right:10;
+background-color:rgb(255,211,0);
+font-size:18;
+height:50px;
+width:250px;
+margin-top:0;
+text-align:center;
+line-height:10px;
+}
+ul li a
+{
+text-decoration:none;
+display:block;
+color:black;
+}
+a:link {
+  color: black ;}
+/* visited link */
+a:visited {
+  color: black;
+}
+/* mouse over link */
+a:hover {
+  color: red;
+}
+/* selected link */
+a:active {
+  color: yellow;}
+
+</style>
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+</head>
+
+   <body>
+<ul>
+<li><a href="login1.html"><h2>Courses</h2></a></li>
+<li><a href="chinese.html"><h2> Chinese Recipes</h2></a></li>
+<li><a href="italian.html"><h2> Italian Recipes</h2></a></li>
+<li><a href="mexican.html"><h2> Mexican Recipes</h2></a></li>
+</ul>
+<script type="text/javascript"> 
+    let contact_redirect=confirm("please fill up the contact form first");
+    if(contact_redirect){	
+    window.location.href = "contactForm/reg.php";
+    }
+    else{
+    }
+</script>;
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+   </body>
+</html>

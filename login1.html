@@ -1,0 +1,182 @@
+<?php
+//This script will handle login
+session_start();
+
+// check if the user is already logged in
+if(isset($_SESSION['username']))
+{
+    header("location: welcome.php");
+    exit;
+}
+require_once "config.php";
+
+$username = $password = "";
+$err = "";
+
+// if request method is post
+if ($_SERVER['REQUEST_METHOD'] == "POST"){
+    if(empty(trim($_POST['username'])) || empty(trim($_POST['password'])))
+    {
+        $err = "Please enter username + password";
+    }
+    else{
+        $username = trim($_POST['username']);
+        $password = trim($_POST['password']);
+    }
+
+
+if(empty($err))
+{
+    $sql = "SELECT id, username, password FROM users WHERE username = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $param_username);
+    $param_username = $username;
+    
+    
+    // Try to execute this statement
+    if(mysqli_stmt_execute($stmt)){
+        mysqli_stmt_store_result($stmt);
+        if(mysqli_stmt_num_rows($stmt) == 1)
+                {
+                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password);
+                    if(mysqli_stmt_fetch($stmt))
+                    {
+                        if(password_verify($password, $hashed_password))
+                        {
+                            // this means the password is corrct. Allow user to login
+                            session_start();
+                            $_SESSION["username"] = $username;
+                            $_SESSION["id"] = $id;
+                            $_SESSION["loggedin"] = true;
+
+                            //Redirect user to welcome page
+                            header("location: welcome.php");
+                            
+                        }
+                    }
+
+                }
+
+    }
+}    
+
+
+}
+
+
+?>
+
+<html>
+<head>
+<title> Login Form </title>
+<meta name="food" content="width=device-width, initial-scale=1">
+<body style="background-color:rgba(17,21,24,255);">
+<header>
+<p style="text-align:center" ><img src="BonIcon.png"  style="float:center;width:40%;height:40%;" ></p>
+    <br>
+    <h1 style="text-align:center; color:white;">Delicious Foregin food recepies consumed by our Indians !</h1>
+        <br>
+    <p style="text-align:center; color:white; font-size:20px;" ><b>Phone No. </b> 022-28908666, 022-55508787   <b>     Email:</b>  FoodRecepies123@gmail.com    <b>Website:</b> www.FoodRecepies.in</p>
+<hr><p style="font-size:20px; color:white;" >Login for Free to get information about food course here............</p></hr>
+</header></body>
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+<style>
+body, html {
+  
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.bg-img {
+  /* The image used */
+  background-image: url("yy.jpeg");
+
+  min-height:90%;
+  min-width:100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  position: pop;
+}
+
+/* Add styles to the form container */
+.container1 {
+  position: absolute;
+  height:460px;
+  right: 300px;
+  margin: 90px;
+  max-width:300px;
+  padding: 16px;
+  background-color: white;
+  opacity: 0.8;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background:Black;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color:black;
+  outline: none;
+}
+
+/* Set a style for the submit button */
+.btn1 {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+/* Set a style for the submit button */
+.btn2 {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  right:0px;
+  left:100%;
+  margin: 50px;
+  width: 500%;
+  opacity: 0.9;
+}
+
+</style>
+</head>
+<body>
+<div class="bg-img">
+
+  <form action="" class="container1">
+    <h1 style="color:Black; font-size:50px;">Login</h1>
+
+    <label for="email"><b style="color:Black; font-size:20px;">Email</b></label>
+    <input style="color:white; font-size:15px;" type="text" placeholder="Enter Email@gmail.com" pattern="[0-9][a-z]{@gmail.com}" name="email" required>
+
+    <label for="psw"><b  style="color:Black; font-size:20px;">Password</b></label>
+    <input style="color:white; font-size:15px;" type="password" placeholder="Enter Password" name="psw" required>
+
+    <button onclick="alert('Choose the cooking course you like')" style="color:Black; font-size:20px;" type="submit" class="btn1"><a href="Cour.html">Login</a></button>
+<br><div class="btn-group"></br>
+    <button style="width:auto; color:white; font-size:20px; background-color: #04AA6D; opacity: 0.9; padding: 9px 20px; border: none; cursor: pointer; width: 57%;"  type="button"  class="btn btn-primary"><a href="reg.html">Register</button></a>
+   <button style="color:Black; font-size:20px; background-color: red; opacity: 0.9; padding: 9px 20px; border: none; cursor: pointer; width: 40%;" type="button" onclick="alert('Back to Home Page')" class="btn btn-primary"><a href="Home.html">Skip</a></button>
+ </div>
+
+</body>
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+</html>
+
